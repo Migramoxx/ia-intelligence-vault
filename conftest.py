@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 import json
 
 # 1. Agrega la raíz del proyecto al PYTHONPATH
@@ -22,3 +22,4 @@ os.environ.setdefault("ANTHROPIC_API_KEY", "sk-ant-test")
 os.environ.setdefault("GOOGLE_SERVICE_ACCOUNT_JSON", _FAKE_SA)
 os.environ.setdefault("GOOGLE_DRIVE_FOLDER_ID", "test-folder-id")
 os.environ.setdefault("WEBHOOK_SECRET", "test-secret")
+os.environ.setdefault("APIFY_TOKEN", "apify_test_token")
