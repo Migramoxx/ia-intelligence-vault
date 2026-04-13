@@ -1,0 +1,7 @@
+{
+  "url": "https://www.instagram.com/p/C_EXAMPLE_TECH_001/",
+  "ownerUsername": "ai_tools_es",
+  "caption": "Probé Claude Computer Use y es una locura. Podés darle control total del navegador al modelo — hace clic, escribe, navega. El flujo: anthropic.messages.create() con tools=[{'type': 'computer_20241022', 'name': 'computer', 'display_width_px': 1920, 'display_height_px': 1080}]. Necesitás anthropic SDK >=0.37.0. Modelo: claude-3-5-sonnet-20241022. Repo: github.com/anthropics/anthropic-quickstarts",
+  "timestamp": "2026-04-10T14:00:00Z",
+  "videoTranscript": null
+}

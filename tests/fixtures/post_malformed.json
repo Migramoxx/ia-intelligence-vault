@@ -1,0 +1,4 @@
+{
+  "ownerUsername": "cuenta_sin_url",
+  "caption": "Este post no tiene URL — debe fallar validación Pydantic"
+}
