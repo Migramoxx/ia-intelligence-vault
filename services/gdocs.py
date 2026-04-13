@@ -29,14 +29,17 @@ def get_or_create_doc(title: str = "IA_Intelligence_Vault") -> str:
     
     # Search for doc in folder
     query = f"'{folder_id}' in parents and name='{title}' and mimeType='application/vnd.google-apps.document' and trashed=false"
+    print(f"DEBUG: Searching for existing doc with query in folder {folder_id}...")
     results = drive_service.files().list(q=query, fields="files(id, name)").execute()
     files = results.get('files', [])
     
     if files:
         _doc_id_cache = files[0]['id']
+        print(f"DEBUG: Found existing doc: {_doc_id_cache}")
         return _doc_id_cache
         
     # Create doc if it does not exist
+    print(f"DEBUG: No doc found. Creating new document in folder {folder_id}...")
     doc_metadata = {
         'name': title,
         'mimeType': 'application/vnd.google-apps.document',
@@ -44,6 +47,7 @@ def get_or_create_doc(title: str = "IA_Intelligence_Vault") -> str:
     }
     doc = drive_service.files().create(body=doc_metadata, fields='id').execute()
     _doc_id_cache = doc.get('id')
+    print(f"DEBUG: Created new doc with ID: {_doc_id_cache}")
     return _doc_id_cache
 
 def get_doc_content(doc_id: str) -> str:

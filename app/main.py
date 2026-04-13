@@ -30,17 +30,27 @@ async def webhook(post: ApifyPost, api_key: str = Depends(get_api_key)):
     if not post.caption and not post.videoTranscript:
         return AgentResponse(status="error", reason="invalid_input")
 
+    print(f"DEBUG: Processing post {post.url}")
     try:
         doc_id = gdocs.get_or_create_doc("IA_Intelligence_Vault")
+        print(f"DEBUG: Target Doc ID: {doc_id}")
+        
         doc_content = gdocs.get_doc_content(doc_id)
         
         if dedup.is_duplicate(post.url, doc_content):
+            print(f"DEBUG: Skipping duplicate post: {post.url}")
             return AgentResponse(status="skipped", reason="duplicate_url")
         
+        print("DEBUG: Calling Claude agent...")
         response, markdown_content = agent.process_post(post)
+        print(f"DEBUG: Agent response status: {response.status}")
         
         if response.status == "saved" and markdown_content:
+            print("DEBUG: Appending insights to Google Doc...")
             gdocs.append_to_doc(doc_id, markdown_content)
+            print("DEBUG: Success!")
+        else:
+            print(f"DEBUG: No insight saved. Reason: {response.reason}")
             
         return response
     except Exception as e:
