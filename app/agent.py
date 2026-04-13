@@ -19,7 +19,7 @@ def process_post(post: ApifyPost) -> Tuple[AgentResponse, Optional[str]]:
     user_message = json.dumps(post.model_dump(exclude_none=True), ensure_ascii=False)
     
     response = client.messages.create(
-        model="claude-3-5-sonnet-20241022",
+        model="claude-3-haiku-20240307",
         max_tokens=2048,
         system=system_prompt,
         messages=[
