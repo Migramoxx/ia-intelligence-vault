@@ -29,10 +29,20 @@ def process_post(post: ApifyPost) -> Tuple[AgentResponse, Optional[str]]:
     
     response_text = response.content[0].text.strip()
     
-    # Check if the response is a JSON skip status
+    # Clean up potential markdown formatting for JSON
+    clean_text = response_text
+    if clean_text.startswith("```json"):
+        clean_text = clean_text[7:]
+    elif clean_text.startswith("```"):
+        clean_text = clean_text[3:]
+    if clean_text.endswith("```"):
+        clean_text = clean_text[:-3]
+    clean_text = clean_text.strip()
+    
+    # Check if the response is a JSON skip/error status
     try:
-        if response_text.startswith('{') and '"status"' in response_text:
-            parsed = json.loads(response_text)
+        if clean_text.startswith('{') and '"status"' in clean_text:
+            parsed = json.loads(clean_text)
             return AgentResponse(
                 status=parsed.get("status", "skipped"),
                 reason=parsed.get("reason", "no_technical_content")
