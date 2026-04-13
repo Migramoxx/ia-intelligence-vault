@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, Security
+from fastapi import FastAPI, Depends, HTTPException, Security, Request
 from fastapi.security.api_key import APIKeyHeader
 from contextlib import asynccontextmanager
 
@@ -26,9 +26,16 @@ async def health():
     return {"status": "ok", "version": "1.0.0"}
 
 @app.post("/webhook", response_model=AgentResponse)
-async def webhook(post: ApifyPost, api_key: str = Depends(get_api_key)):
-    if not post.caption and not post.videoTranscript:
-        return AgentResponse(status="error", reason="invalid_input")
+async def webhook(request: Request, api_key: str = Depends(get_api_key)):
+    try:
+        body_bytes = await request.body()
+        print(f"DEBUG RAW BODY: {body_bytes.decode('utf-8', errors='replace')}")
+        
+        data = await request.json()
+        post = ApifyPost(**data)
+        
+        if not post.caption and not post.videoTranscript:
+            return AgentResponse(status="error", reason="invalid_input")
 
     print(f"DEBUG: Processing post {post.url}")
     try:
