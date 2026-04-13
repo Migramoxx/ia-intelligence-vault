@@ -37,8 +37,8 @@ async def webhook(request: Request, api_key: str = Depends(get_api_key)):
         if not post.caption and not post.videoTranscript:
             return AgentResponse(status="error", reason="invalid_input")
 
-    print(f"DEBUG: Processing post {post.url}")
-    try:
+        print(f"DEBUG: Processing post {post.url}")
+        
         doc_id = gdocs.get_or_create_doc("IA_Intelligence_Vault")
         print(f"DEBUG: Target Doc ID: {doc_id}")
         
@@ -62,5 +62,4 @@ async def webhook(request: Request, api_key: str = Depends(get_api_key)):
         return response
     except Exception as e:
         print(f"ERROR EN WEBHOOK: {e}")
-        # Retornamos error con 200 OK para evitar que el webhook de Apify reintente automáticamente
         return AgentResponse(status="error", reason=str(e))
