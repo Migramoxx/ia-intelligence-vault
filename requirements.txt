@@ -4,4 +4,5 @@ anthropic
 google-api-python-client
 google-auth
 pydantic>=2.0
+pydantic-settings
 python-dotenv
