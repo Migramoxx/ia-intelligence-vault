@@ -44,5 +44,6 @@ async def webhook(post: ApifyPost, api_key: str = Depends(get_api_key)):
             
         return response
     except Exception as e:
+        print(f"ERROR EN WEBHOOK: {e}")
         # Retornamos error con 200 OK para evitar que el webhook de Apify reintente automáticamente
         return AgentResponse(status="error", reason=str(e))

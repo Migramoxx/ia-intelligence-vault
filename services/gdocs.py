@@ -10,7 +10,7 @@ def get_credentials():
     return Credentials.from_service_account_info(
         service_account_info,
         scopes=["https://www.googleapis.com/auth/documents",
-                "https://www.googleapis.com/auth/drive.readonly"]
+                "https://www.googleapis.com/auth/drive"]
     )
 
 def get_docs_service():
